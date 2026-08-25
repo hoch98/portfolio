@@ -1,0 +1,96 @@
+.body {
+  width: 100vw;
+  height: 100vh;
+  font-family: monospace;
+}
+
+.floor {
+  width: 100vw;
+  height: 15vh;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-top: solid white 2px;
+}
+
+.frame {
+  position: absolute;
+  top: 0;
+}
+
+.table {
+  position: absolute;
+  bottom: 7.5vh;
+}
+
+.hi {
+  color: rgb(255, 213, 141);
+  z-index: 12;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  font-size: 5em;
+  padding: 20px;
+}
+
+.gradient-blur-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none; /* Allows user clicks to pass through the overlay */
+}
+
+.gradient-blur-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  mask-image: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.6) 30%,
+    rgba(0, 0, 0, 0.9) 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.6) 30%,
+    rgba(0, 0, 0, 0.9) 100%
+  );
+}
+
+.nav-menu {
+  position: absolute;
+  top: calc(10% + 160px);
+  left: 10%;
+  z-index: 12;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.nav-btn {
+  font-family: monospace;
+  font-size: 2em;
+  color: rgb(255, 213, 141);
+  
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  
+  border: 1px solid rgba(255, 213, 141, 0.15);
+  border-radius: 16px;
+  padding: 12px 28px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.nav-btn:hover {
+  border-color: rgba(255, 213, 141, 0.4);
+  box-shadow: 0 4px 20px rgba(255, 213, 141, 0.1);
+}

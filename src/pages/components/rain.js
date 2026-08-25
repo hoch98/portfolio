@@ -6,10 +6,10 @@ function Rain({ count = 140, zIndex = 4 }) {
       id: i,
       left: -40 + Math.random() * 140,    
       delay: -Math.random() * 4,        
-      duration: 0.4 + Math.random() * 0.4, 
+      duration: 1 + Math.random() * 0.8, 
       length: 60 + Math.random() * 80,    
       drift: 150 + Math.random() * 200,
-      opacity: 0.3 + Math.random() * 0.5,
+      opacity: 0.5 + Math.random() * 0.5,
       width: Math.random() < 0.3 ? 2 : 1.5, 
     }));
   }, [count]);
@@ -27,8 +27,8 @@ function Rain({ count = 140, zIndex = 4 }) {
       <style>{`
         @keyframes rain-fall {
           /* CHANGED: Swapped skew to a positive angle (25deg) to tilt lines to the right */
-          0%   { transform: translate(0, -20%) skewX(25deg); }
-          100% { transform: translate(var(--drift), 120vh) skewX(25deg); }
+          0%   { transform: translate(0, -20%) skewX(15deg); }
+          100% { transform: translate(var(--drift), 120vh) skewX(15deg); }
         }
       `}</style>
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+
 import { motion, useTime, useTransform } from "framer-motion";
 
 export default function WavyBox() {
