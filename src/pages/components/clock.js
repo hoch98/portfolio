@@ -1,24 +1,21 @@
 import { forwardRef, useImperativeHandle, useRef, useState, useEffect } from 'react';
 import { motion, useMotionValue, animate, useAnimationFrame } from 'framer-motion';
 
-const HOUR_START_ROTATION = -120; // 30 degrees = 1 o'clock
-const MINUTE_START_ROTATION = -90; // 12 o'clock
+const HOUR_START_ROTATION = -90; // Base starting offset
+const MINUTE_START_ROTATION = -90; // 12 o'clock base offset
 
 const CANVAS_WIDTH = 200;
 const CANVAS_HEIGHT = 700;
 
-// Tip radii corresponding to hand lengths
-const HOUR_HAND_LENGTH = 31.5; // 70% of 45px
-const MINUTE_HAND_LENGTH = 45; // 100% of 45px
-const SECOND_HAND_LENGTH = 45; // 100% of 45px
+const HOUR_HAND_LENGTH = 31.5;
+const MINUTE_HAND_LENGTH = 45;
+const SECOND_HAND_LENGTH = 45;
 
 const Clock = forwardRef(function Clock({ style, spins = 2, duration = 1.5 }, ref) {
   const hourRotate = useMotionValue(HOUR_START_ROTATION);
   const minuteRotate = useMotionValue(MINUTE_START_ROTATION);
   const secondRotate = useMotionValue(0);
 
-  const hourRotationRef = useRef(HOUR_START_ROTATION);
-  const minuteRotationRef = useRef(MINUTE_START_ROTATION);
   const [hourIndex, setHourIndex] = useState(0);
 
   const canvasRef = useRef(null);
@@ -41,17 +38,14 @@ const Clock = forwardRef(function Clock({ style, spins = 2, duration = 1.5 }, re
     const ctx = canvas.getContext('2d');
     const centerX = CANVAS_WIDTH / 2;
 
-    // Convert current rotation values to radians
     const hRad = (hourRotate.get() * Math.PI) / 180;
     const mRad = (minuteRotate.get() * Math.PI) / 180;
     const sRad = (secondRotate.get() * Math.PI) / 180;
 
-    // Calculate X tip displacements
     const hX = centerX + HOUR_HAND_LENGTH * Math.cos(hRad);
     const mX = centerX + MINUTE_HAND_LENGTH * Math.cos(mRad);
     const sX = centerX + SECOND_HAND_LENGTH * Math.cos(sRad);
 
-    // Shift previous points down & prepend new tip position
     const stepPoints = (arr, newX) => [
       { x: newX, y: 0 },
       ...arr.map((pt) => ({ x: pt.x, y: pt.y + 3 })).filter((pt) => pt.y <= CANVAS_HEIGHT),
@@ -63,7 +57,6 @@ const Clock = forwardRef(function Clock({ style, spins = 2, duration = 1.5 }, re
 
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-    // Helper function to render a single wave stroke
     const strokeWave = (points, strokeStyle, lineWidth) => {
       if (points.length < 2) return;
       ctx.beginPath();
@@ -74,25 +67,27 @@ const Clock = forwardRef(function Clock({ style, spins = 2, duration = 1.5 }, re
       ctx.stroke();
     };
 
-    // Render waves (Hour: soft white, Minute: bright white, Second: red)
     strokeWave(pointsRef.current.hour, 'rgba(255, 255, 255, 0.4)', 3);
     strokeWave(pointsRef.current.minute, 'rgba(255, 255, 255, 0.95)', 2);
     strokeWave(pointsRef.current.second, 'rgba(255, 50, 50, 0.85)', 1.5);
   });
 
+  // Helper to calculate absolute rotation targets directly from target index
+  const getAbsoluteRotations = (targetIndex) => {
+    const hourTarget = HOUR_START_ROTATION + targetIndex * (spins * 360 + 30);
+    const minuteTarget = MINUTE_START_ROTATION + targetIndex * ((spins + 1) * 360);
+    return { hourTarget, minuteTarget };
+  };
+
   const advanceHour = () => {
-    const hourTarget = hourRotationRef.current + spins * 360 + 30;
-    const minuteTarget = minuteRotationRef.current + spins * 360 + 360;
+    const nextIndex = hourIndex + 1;
+    const { hourTarget, minuteTarget } = getAbsoluteRotations(nextIndex);
 
     animate(hourRotate, hourTarget, { duration, ease: 'easeInOut' });
     animate(minuteRotate, minuteTarget, { duration, ease: 'easeInOut' });
 
-    hourRotationRef.current = hourTarget;
-    minuteRotationRef.current = minuteTarget;
-
-    const next = (hourIndex % 12) + 1;
-    setHourIndex(next);
-    return next;
+    setHourIndex(nextIndex);
+    return (nextIndex % 12) || 12;
   };
 
   const previousHour = () => {
@@ -101,18 +96,14 @@ const Clock = forwardRef(function Clock({ style, spins = 2, duration = 1.5 }, re
       return null;
     }
 
-    const hourTarget = hourRotationRef.current - (spins * 360 + 30);
-    const minuteTarget = minuteRotationRef.current - (spins * 360 + 360);
+    const prevIndex = hourIndex - 1;
+    const { hourTarget, minuteTarget } = getAbsoluteRotations(prevIndex);
 
     animate(hourRotate, hourTarget, { duration, ease: 'easeInOut' });
     animate(minuteRotate, minuteTarget, { duration, ease: 'easeInOut' });
 
-    hourRotationRef.current = hourTarget;
-    minuteRotationRef.current = minuteTarget;
-
-    const next = hourIndex - 1;
-    setHourIndex(next);
-    return next;
+    setHourIndex(prevIndex);
+    return (prevIndex % 12) || 12;
   };
 
   useImperativeHandle(ref, () => ({
@@ -125,7 +116,6 @@ const Clock = forwardRef(function Clock({ style, spins = 2, duration = 1.5 }, re
 
   return (
     <div style={{ position: 'absolute', width: 200, height: 200, ...style }}>
-      {/* Downward Wave Canvas */}
       <canvas
         ref={canvasRef}
         width={CANVAS_WIDTH}
