@@ -5,13 +5,11 @@ import Contact from './pages/Contact';
 import About from './pages/About';
 import { AnimatePresence } from 'framer-motion';
 
-// 1. Create a separate component for your routes so it can access the Router context
 function AnimatedRoutes() {
   const location = useLocation();
 
   return (
     <AnimatePresence mode="wait">
-      {/* 2. Pass location and key to Routes so Framer Motion tracks changes */}
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Home />} />
         <Route path="/projects" element={<Projects />} />
@@ -24,7 +22,7 @@ function AnimatedRoutes() {
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}> 
       <AnimatedRoutes />
     </BrowserRouter>
   );

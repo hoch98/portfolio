@@ -79,15 +79,16 @@ export default function Home() {
           backgroundColor: "orange",
           top: 0
         }}
-        initial={{ left: viewportWidth }}
+        initial={{ left: 0 }}
         exit={{ left: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
+        transition={{ duration: 0.5, ease: "easeOut", delay: 0.5 }}
+        animate={{
+          left: viewportWidth
+        }}
       />
 
       <WavyBox width={viewportWidth} height={viewportHeight} />
       <Rain zIndex={2} count={500} />
-
-      <h1 className='hi'>Hi</h1>
 
       <motion.div
         style={{
@@ -141,6 +142,7 @@ export default function Home() {
       <div className="floor" style={{ backgroundColor: "#ddccbd", position: 'absolute', bottom: 0, width: '100%', height: '15%', zIndex: 4 }} />
 
       <div className='gradient-blur-overlay' style={{ zIndex: 11 }}>
+        <h1 className='hi'>Hi</h1>
         <nav className="nav-index">
           {Object.keys(linkMap).map((item, i) => (
             <motion.button

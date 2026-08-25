@@ -1,5 +1,6 @@
-import './styles/About.css';
+import './styles/Contact.css';
 import { motion } from 'framer-motion';
+import BackButton from './components/backbutton';
 
 export default function About() {
   return (
@@ -19,13 +20,16 @@ export default function About() {
         animate={{
           left: -window.innerWidth
         }}
+        exit={{
+          left: 0
+        }}
         transition={{
           duration: 0.5,
           ease: "easeIn"
         }}
 
       />
-      <h1>About</h1>
+      <BackButton></BackButton>
     </div>
   );
 }
