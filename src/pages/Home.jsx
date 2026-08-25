@@ -142,7 +142,7 @@ export default function Home() {
       <div className="floor" style={{ backgroundColor: "#ddccbd", position: 'absolute', bottom: 0, width: '100%', height: '15%', zIndex: 4 }} />
 
       <div className='gradient-blur-overlay' style={{ zIndex: 11 }}>
-        <h1 className='hi'>Hi</h1>
+        <h1 className='hi'>Hi,<br/> I'm Ho Yun</h1>
         <nav className="nav-index">
           {Object.keys(linkMap).map((item, i) => (
             <motion.button
