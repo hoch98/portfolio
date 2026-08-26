@@ -8,12 +8,12 @@
 
 .controls-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   gap: 16px;
   position: absolute;
-  left: 10%;
-  bottom: 50px;
+  right: 5%;
+  top: 30%;
   z-index: 101;
 }
 
@@ -51,4 +51,130 @@
   color: #666666;
   cursor: not-allowed;
   opacity: 0.5;
+}
+
+/* ---------- Project screenshot frame ---------- */
+
+.project-frame {
+  margin-top: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f4f1ea;
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.35),
+    0 2px 8px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.project-frame-bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 12px;
+  background: #e4ddcf;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.project-frame-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.project-frame-dot[data-color="red"] { background: #ff5f57; }
+.project-frame-dot[data-color="yellow"] { background: #ffbd2e; }
+.project-frame-dot[data-color="green"] { background: #28c840; }
+
+.project-frame-viewport {
+  position: relative;
+  width: 100%;
+  /* fixed aspect ratio so the frame doesn't jump between screenshots
+     of different dimensions */
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #f4f1ea;
+}
+
+.project-frame-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+
+  /* tones down a clashing screenshot palette so it sits inside the
+     scene rather than fighting it; sharpens back up on hover */
+  filter: saturate(0.8) contrast(1.02);
+  transition: filter 0.4s ease;
+}
+
+.project-frame-viewport:hover .project-frame-img {
+  filter: saturate(1) contrast(1);
+}
+
+.clock-time {
+  display: inline-flex; 
+  align-items: center;
+  font-size: 1em;
+  font-weight: bold;
+  color: #33B2EB;
+
+  background: rgba(255, 255, 255, 0.15); 
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  
+  padding: 0.4rem 0.8rem; 
+  
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  
+  white-space: nowrap;
+}
+
+.colon {
+  animation: blink 1s steps(2, start) infinite;
+  padding: 0 0.1rem;
+}
+
+@keyframes blink {
+  to { visibility: hidden; }
+}
+
+.project-frame-urlbar {
+  display: flex;
+  align-items: center; 
+  padding: 6px 12px;
+  background-color: #e8e8e8;
+  border-bottom: 1px solid #d0d0d0;
+}
+
+.project-frame-url {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 3px 10px;
+  font-size: 0.75rem;
+  color: #555;
+  width: 100%;
+  font-family: monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-frame-url > a {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  color: inherit;
+}
+
+.clock-wrapper, 
+.project-frame-wrapper {
+  overflow: hidden; 
 }

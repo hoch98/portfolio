@@ -1,10 +1,11 @@
 import './styles/Projects.css';
-import { motion, useAnimation } from 'framer-motion';
+import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import BackButton from './components/backbutton';
 import Clock from './components/clock';
 import { useEffect, useRef, useState } from 'react';
+import { MdOpenInNew } from "react-icons/md";
 
-const CLOCK_DURATION = 4;
+const CLOCK_DURATION = 3;
 const EXIT_DURATION = 0.75;
 const ENTER_DURATION = 1;
 
@@ -30,6 +31,29 @@ const containerVariants = {
   },
 };
 
+const frameVariants = {
+  enter: (direction) => ({
+    y: direction === 'down' ? '-100%' : '100%',
+    opacity: 0,
+  }),
+  center: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: EXIT_DURATION,
+      ease: [0.33, 1, 0.68, 1],
+    },
+  },
+  exit: (direction) => ({
+    y: direction === 'down' ? '100%' : '-100%',
+    opacity: 0,
+    transition: {
+      duration: EXIT_DURATION,
+      ease: [0.32, 0, 0.67, 0],
+    },
+  }),
+};
+
 const buttonVariants = {
   visible: { opacity: 1, y: 0 },
   hidden: { opacity: 0, y: 15 },
@@ -37,36 +61,71 @@ const buttonVariants = {
 
 const projects = [
   {
-    "title": "Project 1"
+    "title": "SAT English\n Revision Site",
+    "img": "/projects/project1/image.png",
+    "url": "https://github.com/hoch98/sat-revision"
   },
   {
-    "title": "Project 2"
+    "title": "Skyblock Attribute\n Lookup Site",
+    "img": "/projects/project2/image.png",
+    "url": "https://github.com/hoch98/attribute-lookup"
   },
   {
-    "title": "Project 3"
+    "title": "Light Care\n Smart Mirror",
+    "img": "/projects/project3/image.png",
+    "url": "https://github.com/hoch98/light-care/"
   },
   {
-    "title": "Project 4"
+    "title": "Sphere to Cube\n Interpolation Simulation",
+    "img": "/projects/project4/image.png",
+    "url": "https://github.com/hoch98/sphere2cube"
   },
   {
-    "title": "Project 5"
+    "title": "YouTube Video Syncer",
+    "img": "/projects/project5/image.png",
+    "url": "https://github.com/hoch98/youtube-syncer"
   },
-]
+];
 
 export default function Projects() {
   const clockRef = useRef(null);
   const textControls = useAnimation();
+  
+  const shape1Controls = useAnimation();
+  const shape2Controls = useAnimation();
+
   const [hourLabel, setHourLabel] = useState(null);
   const hasRunOnce = useRef(false);
   const [isRunning, setIsRunning] = useState(false);
+  const isRunningRef = useRef(false);
+  const [direction, setDirection] = useState('up');
+
+  // Trigger fluctuation relative to resting points
+  const triggerYellowFluctuation = () => {
+    const target1 = window.innerWidth * 0.9;
+    const target2 = window.innerWidth * 0.7;
+
+    shape1Controls.start({
+      left: [target1, target1 -50, target1],
+      transition: { duration: CLOCK_DURATION+0.5, ease: 'easeInOut' }
+    });
+
+    shape2Controls.start({
+      left: [target2, target2 - 75, target2],
+      transition: { duration: CLOCK_DURATION+0.5, ease: 'easeInOut' }
+    });
+  };
 
   const runAdvance = async () => {
-    if (isRunning) return;
+    if (isRunningRef.current) return;
+    setDirection('up');
+    isRunningRef.current = true;
     setIsRunning(true);
 
     if (hasRunOnce.current) {
+      triggerYellowFluctuation();
       await textControls.start({
-        x: '-100%',
+        y: '-50%',
         opacity: 0,
         transition: { duration: EXIT_DURATION, ease: 'easeIn' },
       });
@@ -74,14 +133,16 @@ export default function Projects() {
     hasRunOnce.current = true;
 
     const nextHour = clockRef.current?.advanceHour();
+    setHourLabel(nextHour);
 
-    await new Promise((resolve) => setTimeout(resolve, CLOCK_DURATION * 1000));
+    await new Promise((resolve) => setTimeout(resolve, (CLOCK_DURATION - 0.5) * 1000));
 
     setHourLabel(nextHour);
+    isRunningRef.current = false;
     setIsRunning(false);
 
     await textControls.start({
-      x: '10%',
+      y: '10%',
       opacity: 1,
       transition: { duration: ENTER_DURATION, ease: 'easeOut' },
     });
@@ -89,17 +150,17 @@ export default function Projects() {
 
   const runPrevious = async () => {
     if (isRunning) return;
-
     if (clockRef.current?.hourIndex <= 1) {
       alert("Already at 1 o'clock!");
       return;
     }
 
+    setDirection('down');
     setIsRunning(true);
 
     if (hasRunOnce.current) {
       await textControls.start({
-        x: '100%',
+        y: '150%',
         opacity: 0,
         transition: { duration: EXIT_DURATION, ease: 'easeIn' },
       });
@@ -110,20 +171,29 @@ export default function Projects() {
       setIsRunning(false);
       return;
     }
-
-    await new Promise((resolve) => setTimeout(resolve, CLOCK_DURATION * 1000));
-
     setHourLabel(prevHour);
+
+    await new Promise((resolve) => setTimeout(resolve, (CLOCK_DURATION - 0.5) * 1000));
+
     setIsRunning(false);
 
     await textControls.start({
-      x: '10%',
+      y: '10%',
       opacity: 1,
       transition: { duration: ENTER_DURATION, ease: 'easeOut' },
     });
   };
 
   useEffect(() => {
+    shape1Controls.start({
+      left: window.innerWidth * 0.9,
+      transition: { duration: 7, ease: 'easeOut' }
+    });
+    shape2Controls.start({
+      left: window.innerWidth * 0.7,
+      transition: { duration: 7, ease: 'easeOut' }
+    });
+
     runAdvance();
   }, []);
 
@@ -145,7 +215,7 @@ export default function Projects() {
       />
       <BackButton />
 
-      {/* Main Yellow Background Shape */}
+      {/* Main Yellow Background Shape 1 */}
       <motion.div
         style={{
           backgroundColor: '#ffbd0d',
@@ -153,13 +223,13 @@ export default function Projects() {
           height: '100vh',
           position: 'absolute',
           top: 0,
-          left: 0,
           skewX: -15,
         }}
         initial={{ left: 0 }}
-        animate={{ left: window.innerWidth * 0.9 }}
-        transition={{ duration: 7, ease: 'easeOut' }}
+        animate={shape1Controls}
       />
+
+      {/* Main Yellow Background Shape 2 */}
       <motion.div
         style={{
           backgroundColor: '#ffbd0d',
@@ -167,12 +237,10 @@ export default function Projects() {
           height: '100vh',
           position: 'absolute',
           top: 0,
-          left: -295,
           skewX: -15,
         }}
         initial={{ left: '-21vw' }}
-        animate={{ left: window.innerWidth * 0.7 }}
-        transition={{ duration: 7, ease: 'easeOut' }}
+        animate={shape2Controls}
       />
 
       <Clock
@@ -183,28 +251,63 @@ export default function Projects() {
       />
 
       <motion.div
-        initial={{ x: '-100%', opacity: 0 }}
+        initial={{ x: '10%', y: "10%", opacity: 0 }}
         animate={textControls}
         style={{
           position: 'absolute',
-          left: '10%',
-          top: '50px',
+          left: '5%',
           fontSize: '2rem',
           fontWeight: 600,
           color: 'white',
           width: "40%",
-          // Glassmorphic border & background blur
-          // border: '2px solid white',
-          // borderRadius: '12px',
           padding: '20px 30px',
-          // backgroundColor: 'rgba(255, 255, 255, 0.15)',
-          // backdropFilter: 'blur(10px)',
-          // WebkitBackdropFilter: 'blur(10px)',
-          // boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.2)',
         }}
       >
-        {hourLabel !== null ? `${hourLabel}:00` : ''}
-        <h1 style={{margin: "0"}}>{hourLabel !== null ? projects[hourLabel - 1]?.title : ''}</h1>
+        <div className="clock-wrapper">
+          <div className="clock-time">
+            <span className="time-unit">{hourLabel !== null ? `${hourLabel}` : ''}</span>
+            <span className="colon">:</span>
+            <span className="time-unit">00</span>
+          </div>
+        </div>
+        
+        <h1 style={{ marginTop: "10px", fontSize: "1em", whiteSpace: "pre-line" }}>
+          {hourLabel !== null ? projects[hourLabel - 1]?.title : ''}
+        </h1>
+        <AnimatePresence mode="wait" custom={direction}>
+          {hourLabel !== null && (
+            <motion.div
+              key={hourLabel}
+              custom={direction}
+              variants={frameVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              className="project-frame"
+            >
+              <div className="project-frame-bar">
+                <span className="project-frame-dot" data-color="red" />
+                <span className="project-frame-dot" data-color="yellow" />
+                <span className="project-frame-dot" data-color="green" />
+              </div>
+              <div className="project-frame-urlbar">
+                <span className="project-frame-url">
+                  {projects[hourLabel - 1]?.url}
+                  <a href={projects[hourLabel - 1]?.url} target="_blank" rel="noopener noreferrer">
+                    <MdOpenInNew />
+                  </a>
+                </span>
+              </div>
+              <div className="project-frame-viewport">
+                <img
+                  src={process.env.PUBLIC_URL + projects[hourLabel - 1]?.img}
+                  alt=""
+                  className="project-frame-img"
+                />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
 
       {/* Bottom-Left Controls Container */}
