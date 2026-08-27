@@ -1,9 +1,18 @@
+/* =======================================================
+   DESKTOP VIEW (Original App Styles)
+   ======================================================= */
 .body {
   width: 100vw;
   height: 100vh;
   font-family: monospace;
   overflow: hidden;
   position: relative;
+}
+
+@media (max-width:1024px) {
+  .body {
+    overflow:scroll;
+  }
 }
 
 .controls-container {
@@ -53,16 +62,129 @@
   opacity: 0.5;
 }
 
-/* ---------- Project screenshot frame ---------- */
+/* =======================================================
+   MOBILE VIEW (Simplified Breakout Styles)
+   ======================================================= */
+.mobile-body {
+  min-height: 100vh;
+  width: 100vw;
+  font-family: monospace;
+  background-color: #f4f1ea;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
 
+.mobile-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  gap: 20px;
+}
+
+.mobile-clock-container {
+  margin-bottom: 10px;
+}
+
+.mobile-project-info {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.mobile-project-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  white-space: pre-line;
+}
+
+.mobile-project-showcase {
+  width: 100%;
+  min-height: 250px;
+}
+
+.mobile-controls-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.mobile-para-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.2s ease, opacity 0.2s ease, transform 0.15s ease;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  max-width: 150px;
+}
+
+.mobile-para-button:hover:not(:disabled) {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.mobile-para-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.mobile-para-button:disabled {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Overrides strictly for frames inside the mobile view */
+.mobile-body .project-frame {
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 0;
+}
+
+.mobile-body .clock-time {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.mobile-body .project-frame-urlbar {
+  background-color: #f9f9f9;
+}
+
+.mobile-body .project-frame-url {
+  border: 1px solid #eee;
+}
+
+/* =======================================================
+   SHARED UI (Frames & Time Formatting)
+   ======================================================= */
 .project-frame {
   margin-top: 20px;
   border-radius: 12px;
   overflow: hidden;
   background: #f4f1ea;
-  box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.35),
-    0 2px 8px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35), 0 2px 8px rgba(0, 0, 0, 0.25);
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
@@ -89,8 +211,6 @@
 .project-frame-viewport {
   position: relative;
   width: 100%;
-  /* fixed aspect ratio so the frame doesn't jump between screenshots
-     of different dimensions */
   aspect-ratio: 16 / 10;
   overflow: hidden;
   background: #f4f1ea;
@@ -103,9 +223,6 @@
   height: 100%;
   object-fit: cover;
   object-position: top;
-
-  /* tones down a clashing screenshot palette so it sits inside the
-     scene rather than fighting it; sharpens back up on hover */
   filter: saturate(0.8) contrast(1.02);
   transition: filter 0.4s ease;
 }
@@ -120,16 +237,12 @@
   font-size: 1em;
   font-weight: bold;
   color: #33B2EB;
-
   background: rgba(255, 255, 255, 0.15); 
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  
   padding: 0.4rem 0.8rem; 
-  
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.4);
-  
   white-space: nowrap;
 }
 
@@ -154,7 +267,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   background-color: #fff;
   border-radius: 4px;
   padding: 3px 10px;
@@ -178,3 +290,4 @@
 .project-frame-wrapper {
   overflow: hidden; 
 }
+

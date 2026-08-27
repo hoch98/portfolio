@@ -69,7 +69,8 @@ export default function Home() {
   };
 
   return (
-    <div className='body' style={{ backgroundColor: "#a0c3ca", position: 'relative', overflow: 'hidden', height: '100vh', width: '100vw' }}>
+    <div className='body' style={{ backgroundColor: "#a0c3ca", position: 'relative', overflow: 'hidden'}}>
+      <div className='grain-overlay' style={{background: `url(${process.env.PUBLIC_URL}/grain.gif`}}/>
       <motion.div
         style={{
           position: "absolute",
@@ -142,7 +143,7 @@ export default function Home() {
       <div className="floor" style={{ backgroundColor: "#ddccbd", position: 'absolute', bottom: 0, width: '100%', height: '15%', zIndex: 4 }} />
 
       <div className='gradient-blur-overlay' style={{ zIndex: 11 }}>
-        <h1 className='hi'>Hi,<br/> I'm Ho Yun</h1>
+        <h1 className='hi'>Hi,<br className="hi-break" /> I'm Ho Yun</h1>
         <nav className="nav-index">
           {Object.keys(linkMap).map((item, i) => (
             <motion.button
