@@ -1,5 +1,174 @@
-.body {
-  width: 100vw;
-  height: 100vh;
-  font-family: monospace;
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Patrick+Hand&display=swap');
+:root {
+  --ink: #16161a;
+  --grey-line: #e4e3df;
+  --accent-orange: #ffa500;
+  --accent-magenta: #ff00ff;
+  --accent-blue: #00aaff;
+  --text-cream: #fff6e9;
+}
+
+.about-body {
+  margin: 0;
+  background-color: #03a1dc;
+  font-family: 'Patrick Hand', cursive;
+  color: var(--ink);
+}
+
+.about-panel {
+  color: var(--text-cream);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  align-items: flex-start;
+  padding: 8vh 0;
+  box-sizing: border-box;
+}
+
+.about-content {
+  padding: 0 8vw;
+  max-width: 640px;
+}
+
+.about-headline {
+  font-family: 'Architects Daughter', cursive;
+  font-weight: 800; /* this family only ships one weight — no 700 to fall back on */
+  font-size: clamp(2.5rem, 4.8vw, 4rem); /* nudged down from the Caveat sizing — Architects Daughter runs wider per letter, so the same clamp values were pushing lines too long */
+  line-height: 1.25; /* slightly looser than Caveat's 1.1 — this face has taller ascenders/descenders that need more room or they'll clip/collide */
+  letter-spacing: 0;
+  margin: 0 0 1.25rem;
+  color: var(--text-cream);
+}
+
+.about-section-title {
+  font-family: 'Architects Daughter', cursive;
+  font-weight: 400;
+  font-size: 1.45rem;
+  margin: 0 0 0.75rem;
+  color: var(--text-cream);
+}
+
+.about-subline {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin: 0 0 1.25rem;
+  color: var(--text-cream);
+}
+
+.about-intro {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  max-width: 46ch;
+  color: rgba(255, 246, 233, 0.85);
+  margin: 0;
+}
+
+.about-divider {
+  height: 1px;
+  width: 100%;
+  background: rgba(255, 246, 233, 0.25);
+  margin: 2.25rem 0;
+}
+.focus-list,
+.experience-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  font-family: 'Patrick Hand', cursive;
+}
+
+.focus-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.focus-label {
+  font-weight: 400;
+  font-size: 1.15rem;
+  color: var(--text-cream);
+}
+
+.focus-desc {
+  font-size: 1.05rem;
+  color: rgba(255, 246, 233, 0.75);
+}
+
+.experience-row {
+  display: grid;
+  grid-template-columns: 9rem 1fr auto;
+  gap: 1rem;
+  align-items: baseline;
+  font-size: 1.1rem;
+}
+
+.experience-year {
+  color: rgba(255, 246, 233, 0.65);
+}
+
+.experience-role {
+  color: var(--text-cream);
+}
+
+.experience-org {
+  color: rgba(255, 246, 233, 0.75);
+}
+
+.about-contact-lead {
+  margin: 0 0 0.75rem;
+  color: rgba(255, 246, 233, 0.75);
+  font-size: 1.1rem;
+}
+
+.about-contact-link {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.1rem;
+  color: var(--text-cream);
+  text-decoration: none;
+  border-bottom: 1px solid var(--text-cream);
+  padding-bottom: 2px;
+  transition: border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.about-contact-link:hover,
+.about-contact-link:focus-visible {
+  border-color: var(--accent-magenta);
+}
+
+.about-contact-link:focus-visible {
+  outline: 2px solid var(--text-cream);
+  outline-offset: 4px;
+}
+
+@media (max-width: 860px) {
+  .about-panel {
+    width: 100vw !important;
+    padding-right: 0;
+  }
+
+  .about-content {
+    padding: 0 6vw;
+    max-width: 100%;
+  }
+
+  .about-envelope {
+    display: none;
+  }
+
+  .experience-row {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

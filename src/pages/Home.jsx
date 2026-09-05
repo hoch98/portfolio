@@ -69,7 +69,7 @@ export default function Home() {
   };
 
   return (
-    <div className='body' style={{ backgroundColor: "#a0c3ca", position: 'relative', overflow: 'hidden'}}>
+    <div className='home-body' style={{ backgroundColor: "#a0c3ca", position: 'relative', overflow: 'hidden'}}>
       <div className='grain-overlay' style={{background: `url(${process.env.PUBLIC_URL}/grain.gif`}}/>
       <motion.div
         style={{

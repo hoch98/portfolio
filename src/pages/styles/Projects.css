@@ -1,16 +1,17 @@
 /* =======================================================
    DESKTOP VIEW (Original App Styles)
    ======================================================= */
-.body {
+.projects-body {
   width: 100vw;
   height: 100vh;
   font-family: monospace;
   overflow: hidden;
   position: relative;
+  background-color: #D7C4C3;
 }
 
 @media (max-width:1024px) {
-  .body {
+  .projects-body {
     overflow:scroll;
   }
 }

@@ -1,4 +1,4 @@
-.body {
+.home-body {
   width: 100vw;
   height: 100vh;
   font-family: monospace;
@@ -28,7 +28,7 @@
   z-index: 12;
   position: absolute;
   top: 10%;
-  font-size: 5em;
+  font-size: 4em;
   padding: 20px;
 }
 

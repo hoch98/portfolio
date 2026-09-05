@@ -158,7 +158,7 @@ function DesktopView({ isMobile }) {
   }, []);
 
   return (
-    <div className="body">
+    <div className="projects-body">
       <div className='grain-overlay' style={{background: `url(${process.env.PUBLIC_URL}/grain.gif`}}/>
       <motion.div
         style={{ position: 'absolute', width: '100vw', height: '100vh', zIndex: 100, backgroundColor: 'orange', top: 0 }}
