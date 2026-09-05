@@ -17,6 +17,7 @@ const projects = [
   { "title": "Light Care\n Smart Mirror", "img": "/projects/project3/image.png", "url": "https://github.com/hoch98/light-care/" },
   { "title": "Sphere to Cube\n Interpolation Simulation", "img": "/projects/project4/image.png", "url": "https://github.com/hoch98/sphere2cube" },
   { "title": "YouTube Video Syncer", "img": "/projects/project5/image.png", "url": "https://github.com/hoch98/youtube-syncer" },
+  { "title" : "Slingshot Game", "img": "/projects/project6/image.png", "url": "https://github.com/hoch98/Slingshot"}
 ];
 
 export default function Projects() {
@@ -31,9 +32,6 @@ export default function Projects() {
   return isMobile ? <MobileView isMobile={true} /> : <DesktopView isMobile={false} />;
 }
 
-// ------------------------------------------------------------
-// Desktop Component (Original Complex UI)
-// ------------------------------------------------------------
 function DesktopView({ isMobile }) {
   const clockRef = useRef(null);
   const textControls = useAnimation();
@@ -159,7 +157,6 @@ function DesktopView({ isMobile }) {
 
   return (
     <div className="projects-body">
-      <div className='grain-overlay' style={{background: `url(${process.env.PUBLIC_URL}/grain.gif`}}/>
       <motion.div
         style={{ position: 'absolute', width: '100vw', height: '100vh', zIndex: 100, backgroundColor: 'orange', top: 0 }}
         initial={{ left: 0 }}
@@ -252,9 +249,6 @@ function DesktopView({ isMobile }) {
   );
 }
 
-// ------------------------------------------------------------
-// Mobile Component (Glitch-Free Fading Loop Shapes)
-// ------------------------------------------------------------
 function MobileView({ isMobile }) {
   const clockRef = useRef(null);
   const [hourLabel, setHourLabel] = useState(null);
@@ -272,7 +266,6 @@ function MobileView({ isMobile }) {
   };
 
   const triggerYellowFluctuation = () => {
-    // Fade out as it exits right, snap invisible to the left, and fade back in as it settles
     shape1Controls.start({
       left: ['50%', '150%', '-50%', '50%'],
       opacity: [1, 0, 0, 1],
@@ -365,7 +358,6 @@ function MobileView({ isMobile }) {
         paddingBottom: '40px'
       }}
     >
-      <div className='grain-overlay' style={{background: `url(${process.env.PUBLIC_URL}/grain.gif`}}/>
       
       {/* Screen-wipe entry transition */}
       <motion.div
@@ -376,7 +368,6 @@ function MobileView({ isMobile }) {
         transition={{ duration: 0.5, ease: 'easeIn' }}
       />
 
-      {/* Abstract Sliding Shapes with Opacity Tracking */}
       <motion.div
         style={{ backgroundColor: '#ffbd0d', width: '85vw', minHeight: '100vh', height: '100%', position: 'absolute', top: 0, skewX: -15, zIndex: 0, willChange: 'left, opacity' }}
         animate={shape1Controls}
@@ -386,7 +377,6 @@ function MobileView({ isMobile }) {
         animate={shape2Controls}
       />
 
-      {/* Main Content Container */}
       <div style={{ position: 'relative', zIndex: 1, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <BackButton />
         <div className="mobile-content-wrapper" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', padding: '10px 0' }}>

@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Patrick+Hand&display=swap');
+
 :root {
   --ink: #16161a;
   --grey-line: #e4e3df;
@@ -13,6 +14,7 @@
   background-color: #03a1dc;
   font-family: 'Patrick Hand', cursive;
   color: var(--ink);
+  touch-action: none;
 }
 
 .about-panel {
@@ -21,47 +23,48 @@
   -webkit-overflow-scrolling: touch;
   display: flex;
   align-items: flex-start;
-  padding: 8vh 0;
+  padding: 6vh 0;
   box-sizing: border-box;
 }
 
 .about-content {
-  padding: 0 8vw;
-  max-width: 640px;
+  padding: 0 6vw;
+  max-width: clamp(500px, 65vw, 900px);
+  box-sizing: border-box;
 }
 
 .about-headline {
   font-family: 'Architects Daughter', cursive;
   font-weight: 800;
-  font-size: clamp(2.5rem, 4.8vw, 4rem);
-  line-height: 1.25;
+  font-size: clamp(2rem, 3.2vw, 3.8rem);
+  line-height: 1.15;
   letter-spacing: 0;
-  margin: 0 0 1.25rem;
+  margin: 0 0 clamp(0.8rem, 1.5vh, 1.5rem);
   color: var(--text-cream);
 }
 
 .about-section-title {
   font-family: 'Architects Daughter', cursive;
   font-weight: 400;
-  font-size: 1.45rem;
-  margin: 0 0 0.75rem;
+  font-size: clamp(1.2rem, 1.8vw, 2rem);
+  margin: 0 0 clamp(0.4rem, 1vh, 1rem);
   color: var(--text-cream);
 }
 
 .about-subline {
   font-family: 'Patrick Hand', cursive;
-  font-size: 1.2rem;
+  font-size: clamp(1.05rem, 1.4vw, 1.5rem);
   font-weight: 400;
-  margin: 0 0 1.25rem;
+  margin: 0 0 clamp(0.8rem, 1.5vh, 1.4rem);
   color: var(--text-cream);
 }
 
 .about-intro {
   font-family: 'Patrick Hand', cursive;
-  font-size: 1.15rem;
-  line-height: 1.6;
-  max-width: 46ch;
-  color: rgba(255, 246, 233, 0.85);
+  font-size: clamp(0.95rem, 1.25vw, 1.35rem);
+  line-height: 1.5;
+  max-width: 52ch;
+  color: rgba(255, 246, 233, 0.88);
   margin: 0;
 }
 
@@ -69,65 +72,18 @@
   height: 1px;
   width: 100%;
   background: rgba(255, 246, 233, 0.25);
-  margin: 2.25rem 0;
-}
-.focus-list,
-.experience-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-  font-family: 'Patrick Hand', cursive;
+  margin: clamp(1.2rem, 2.5vh, 2.2rem) 0;
 }
 
-.focus-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-}
-
-.focus-label {
-  font-weight: 400;
-  font-size: 1.15rem;
-  color: var(--text-cream);
-}
-
-.focus-desc {
-  font-size: 1.05rem;
-  color: rgba(255, 246, 233, 0.75);
-}
-
-.experience-row {
-  display: grid;
-  grid-template-columns: 9rem 1fr auto;
-  gap: 1rem;
-  align-items: baseline;
-  font-size: 1.1rem;
-}
-
-.experience-year {
-  color: rgba(255, 246, 233, 0.65);
-}
-
-.experience-role {
-  color: var(--text-cream);
-}
-
-.experience-org {
-  color: rgba(255, 246, 233, 0.75);
-}
-
-.about-contact-lead {
-  margin: 0 0 0.75rem;
-  color: rgba(255, 246, 233, 0.75);
-  font-size: 1.1rem;
+/* Strictly hide 'cool things' section on desktop */
+.cool-things-divider,
+.cool-things-section {
+  display: none !important;
 }
 
 .about-contact-link {
   font-family: 'Patrick Hand', cursive;
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 1.3vw, 1.4rem);
   color: var(--text-cream);
   text-decoration: none;
   border-bottom: 1px solid var(--text-cream);
@@ -145,10 +101,66 @@
   outline-offset: 4px;
 }
 
-@media (max-width: 860px) {
+/* Interior styles for the big orange button */
+.envelope-portal-content {
+  position: absolute;
+  bottom: 10vh;
+  right: 2vw;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  pointer-events: none;
+  user-select: none;
+}
+
+.portal-tag {
+  font-family: 'Architects Daughter', cursive;
+  font-size: clamp(0.75rem, 0.95vw, 1.1rem);
+  letter-spacing: 2px;
+  color: #ffeb3b;
+  margin-bottom: 0.2rem;
+}
+
+.portal-title {
+  font-family: monospace;
+  font-weight: 800;
+  font-size: clamp(1.5rem, 2.3vw, 3rem);
+  line-height: 0.95;
+  margin: 0;
+  color: #ffffff;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.25);
+}
+
+.portal-arrow {
+  font-family: 'Architects Daughter', cursive;
+  font-size: clamp(2rem, 3.2vw, 4rem);
+  line-height: 1;
+  color: #ffeb3b;
+  margin-top: 0.4rem;
+  transition: transform 0.2s ease;
+}
+
+.about-envelope:hover .portal-arrow {
+  transform: translateX(6px);
+}
+
+/* On mobile/tablet (<= 1024px): Envelope hides, 'cool things' displays */
+@media (max-width: 1024px) {
+  .about-envelope {
+    display: none !important;
+  }
+
+  .cool-things-divider,
+  .cool-things-section {
+    display: block !important;
+  }
+
   .about-panel {
     width: 100vw !important;
-    padding-right: 0;
+    padding-top: clamp(80px, 12vh, 130px);
+    padding-bottom: 6vh;
   }
 
   .about-content {
@@ -156,13 +168,55 @@
     max-width: 100%;
   }
 
-  .about-envelope {
-    display: none;
+  .about-headline {
+    font-size: clamp(2rem, 4.8vw, 3.2rem);
   }
 
-  .experience-row {
-    grid-template-columns: 1fr;
-    gap: 0.15rem;
+  .about-section-title {
+    font-size: clamp(1.3rem, 3vw, 2rem);
+  }
+
+  .about-subline {
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  }
+
+  .about-intro {
+    font-size: clamp(1rem, 2.2vw, 1.35rem);
+    max-width: none;
+  }
+
+  .about-contact-link {
+    font-size: clamp(1rem, 2.4vw, 1.45rem);
+  }
+}
+
+@media (max-width: 600px) {
+  .about-panel {
+    padding-top: clamp(70px, 10vh, 100px);
+  }
+
+  .about-content {
+    padding: 0 5vw;
+  }
+
+  .about-headline {
+    font-size: clamp(1.75rem, 6.5vw, 2.4rem);
+  }
+
+  .about-section-title {
+    font-size: clamp(1.15rem, 4vw, 1.6rem);
+  }
+
+  .about-subline {
+    font-size: clamp(1.0rem, 3.8vw, 1.25rem);
+  }
+
+  .about-intro {
+    font-size: clamp(0.92rem, 3.2vw, 1.15rem);
+  }
+
+  .about-contact-link {
+    font-size: clamp(0.95rem, 3.4vw, 1.25rem);
   }
 }
 

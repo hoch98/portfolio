@@ -5,7 +5,6 @@ const HOUR_START_ROTATION = -90;
 const MINUTE_START_ROTATION = -90;
 
 const CANVAS_WIDTH = 200;
-const CANVAS_HEIGHT = 700;
 const LEFT_CANVAS_HEIGHT = 200;
 
 const HOUR_HAND_LENGTH = 31.5;
@@ -19,6 +18,8 @@ const Clock = forwardRef(function Clock({ style, spins = 2, duration = 1.5, clas
 
   const [hourIndex, setHourIndex] = useState(0);
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+  // 1. Dynamic height state tracking
+  const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
 
   const canvasRef = useRef(null);
   const leftCanvasRef = useRef(null);
@@ -26,7 +27,11 @@ const Clock = forwardRef(function Clock({ style, spins = 2, duration = 1.5, clas
   const leftPointsRef = useRef({ hour: [], minute: [], second: [] });
 
   useEffect(() => {
-    const handleResize = () => setViewportWidth(window.innerWidth);
+    const handleResize = () => {
+      setViewportWidth(window.innerWidth);
+      // 2. Keep track of viewport height on window resize
+      setViewportHeight(window.innerHeight);
+    };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -41,7 +46,7 @@ const Clock = forwardRef(function Clock({ style, spins = 2, duration = 1.5, clas
   }, [secondRotate]);
 
   useAnimationFrame(() => {
-    if (isMobile) return; // Instantly return on mobile to save performance
+    if (isMobile) return;
 
     const centerX = CANVAS_WIDTH / 2;
     const leftCenterY = LEFT_CANVAS_HEIGHT / 2;
@@ -58,16 +63,17 @@ const Clock = forwardRef(function Clock({ style, spins = 2, duration = 1.5, clas
       const mX = centerX + MINUTE_HAND_LENGTH * Math.cos(mRad);
       const sX = centerX + SECOND_HAND_LENGTH * Math.cos(sRad);
 
+      // 3. Filter points dynamically based on actual viewport height
       const stepDown = (arr, newX) => [
         { x: newX, y: 0 },
-        ...arr.map((pt) => ({ x: pt.x, y: pt.y + 3 })).filter((pt) => pt.y <= CANVAS_HEIGHT),
+        ...arr.map((pt) => ({ x: pt.x, y: pt.y + 3 })).filter((pt) => pt.y <= viewportHeight),
       ];
 
       pointsRef.current.hour = stepDown(pointsRef.current.hour, hX);
       pointsRef.current.minute = stepDown(pointsRef.current.minute, mX);
       pointsRef.current.second = stepDown(pointsRef.current.second, sX);
 
-      ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+      ctx.clearRect(0, 0, CANVAS_WIDTH, viewportHeight);
 
       const strokeWave = (points, strokeStyle, lineWidth) => {
         if (points.length < 2) return;
@@ -165,10 +171,11 @@ const Clock = forwardRef(function Clock({ style, spins = 2, duration = 1.5, clas
     <div className={className} style={isMobile ? { position: 'relative', width: 120, height: 120, ...style } : { position: 'absolute', width: 200, height: 200, ...style }}>
       {!isMobile && (
         <>
+          {/* 4. Canvas element height dynamically rendered */}
           <canvas
             ref={canvasRef}
             width={CANVAS_WIDTH}
-            height={CANVAS_HEIGHT}
+            height={viewportHeight}
             style={{ position: 'absolute', left: '0px', top: '100px', pointerEvents: 'none', zIndex: 0 }}
           />
           <canvas

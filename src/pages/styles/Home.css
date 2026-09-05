@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Patrick+Hand&display=swap');
+
 .home-body {
   width: 100vw;
   height: 100vh;
@@ -23,19 +25,6 @@
   bottom: 7.5vh;
 }
 
-.hi {
-  color: rgb(255, 213, 141);
-  z-index: 12;
-  position: absolute;
-  top: 10%;
-  font-size: 4em;
-  padding: 20px;
-}
-
-.hi-break {
-  display: block;
-}
-
 .gradient-blur-overlay {
   position: absolute;
   inset: 0;
@@ -43,7 +32,18 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding-left: clamp(20px, 5vw, 64px);
+  padding-left: clamp(24px, 6vw, 120px);
+  padding-bottom: clamp(40px, 10vh, 120px); 
+}
+
+.home-content-container {
+  position: relative;
+  z-index: 12;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 3.5vh, 44px);
+  max-width: 90vw;
+  transform: translateY(-6vh); 
 }
 
 .gradient-blur-overlay::before {
@@ -68,10 +68,28 @@
   );
 }
 
+.hi {
+  color: rgb(255, 213, 141);
+  font-size: clamp(2.8rem, 5vw, 5em);
+  line-height: 1.05;
+  margin: 0;
+  padding: 0;
+}
+
+.hi-break {
+  display: block;
+}
+
+.zero-width-comma {
+  display: inline-block;
+  width: 0;
+  overflow: visible;
+}
+
 .nav-index {
   display: flex;
   flex-direction: column;
-  gap: clamp(10px, 1.8vh, 22px);
+  gap: clamp(12px, 2vh, 28px);
 }
 
 .nav-index-item {
@@ -87,18 +105,18 @@
 .nav-index-row {
   display: inline-flex;
   align-items: baseline;
-  gap: clamp(10px, 1.4vw, 18px);
+  gap: clamp(12px, 1.5vw, 24px);
 }
 
 .nav-index-number {
-  font-size: clamp(0.7rem, 1vw, 0.95rem);
+  font-size: clamp(0.85rem, 1.2vw, 1.4em);
   opacity: 0.45;
   letter-spacing: 0.05em;
 }
 
 .nav-index-label {
   position: relative;
-  font-size: clamp(1.3rem, 2.4vw, 2.2rem);
+  font-size: clamp(1.5rem, 2.8vw, 3rem);
   letter-spacing: 0.02em;
 }
 
@@ -107,23 +125,61 @@
   left: 0;
   bottom: -4px;
   width: 100%;
-  height: 2px;
+  height: 3px;
   background: rgb(255, 213, 141);
   transform-origin: left;
 }
 
+/* Responsive Social Links */
+.social-links {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 1.5vw, 28px);
+  margin-top: 4px;
+}
+
+.social-icon {
+  color: rgb(255, 213, 141);
+  opacity: 0.7;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+/* Scales SVG smoothly from 22px up to 36px based on viewport width */
+.social-icon svg {
+  width: clamp(22px, 2.2vw, 36px);
+  height: clamp(22px, 2.2vw, 36px);
+}
+
+.social-icon:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+/* Mobile & Small Screen Optimizations */
 @media (max-width: 768px) {
   .gradient-blur-overlay {
+    width: 100%;
     top: 0;
     bottom: auto;
     height: 100vh;
     min-height: 260px;
-    flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     padding-left: 0;
     padding-top: clamp(24px, 8vh, 56px);
+    padding-bottom: 0;
+  }
+
+  .home-content-container {
+    width: 100%;
+    align-items: center;
+    text-align: center;
     gap: clamp(16px, 3vh, 28px);
+    transform: none;
   }
 
   .gradient-blur-overlay::before {
@@ -140,9 +196,7 @@
   }
 
   .hi {
-    position: static;
-    font-size: clamp(1.4rem, 7vw, 3.5rem);
-    padding: 0;
+    font-size: clamp(1.8rem, 7vw, 3.5rem);
     white-space: nowrap;
     max-width: 90vw;
     text-align: center;
@@ -153,23 +207,42 @@
   }
 
   .nav-index {
-    gap: 14px;
+    width: 100%;
+    gap: 16px;
     align-items: center;
   }
 
   .nav-index-item {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    width: 100%;
   }
 
   .nav-index-row {
+    position: relative;
+    display: inline-flex;
     justify-content: center;
+    align-items: center;
+  }
+
+  .nav-index-number {
+    position: absolute;
+    right: calc(100% + 10px);
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: clamp(0.75rem, 3vw, 1.1rem);
   }
 
   .nav-index-label {
-    font-size: clamp(1.4rem, 6vw, 1.9rem);
+    font-size: clamp(1.4rem, 6vw, 2.2rem);
+    text-align: center;
+  }
+
+  .social-links {
+    justify-content: center;
+    margin-top: 2px;
   }
 }
-
 
 @media (max-width: 550px) {
   .hi-break {
@@ -177,6 +250,6 @@
   }
 
   .nav-index {
-    gap: 10px;
+    gap: 12px;
   }
 }

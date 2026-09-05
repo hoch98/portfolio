@@ -1,4 +1,4 @@
-import './styles/Contact.css';
+import './styles/test.css';
 import { motion } from 'framer-motion';
 import BackButton from './components/backbutton';
 import WavySlab from './components/wave3d';
@@ -120,7 +120,7 @@ function CameraRig({ focusHallway, controlsRef }) {
   return null;
 }
 
-export default function About() {
+export default function Test() {
   // Controls the hallway environment scroll only
   const [treadmillRunning, setTreadmillRunning] = useState(true);
   const [focusHallway, setFocusHallway] = useState(false);
