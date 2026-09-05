@@ -140,7 +140,7 @@ export default function Home() {
         width={floorWidth}
         style={{ position: 'absolute', top: 0, left: 0, zIndex: 5, pointerEvents: 'none' }}
       />
-      <div className="floor" style={{ backgroundColor: "#ddccbd", position: 'absolute', bottom: 0, width: '100%', height: '15%', zIndex: 4 }} />
+      <div className="floor" style={{ backgroundColor: "#ddccbd", position: 'absolute', bottom: 0, width: '100%', height: '175px', zIndex: 4 }} />
 
       <div className='gradient-blur-overlay' style={{ zIndex: 11 }}>
         <div className="home-content-container">
