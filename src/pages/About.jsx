@@ -33,8 +33,6 @@ export default function About() {
       className="about-body"
       style={{ position: 'relative', overflow: 'hidden', width: '100vw', height: '100vh' }}
     >
-      {/* Hidden SVG filter def — gives the black line its pencil/hand-drawn edge wobble.
-          Lives once in the DOM; referenced via filter: url(#pencilTexture) below. */}
       <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden="true">
         <filter id="pencilTexture" x="-20%" y="-20%" width="140%" height="140%">
           <feTurbulence type="fractalNoise" baseFrequency="0.012 0.9" numOctaves="2" seed="7" result="noise" />

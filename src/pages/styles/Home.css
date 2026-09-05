@@ -33,10 +33,8 @@
 }
 
 .hi-break {
-  display: block; /* desktop: force the split onto its own line */
+  display: block;
 }
-
-/* ---------- Nav overlay container ---------- */
 
 .gradient-blur-overlay {
   position: absolute;
@@ -69,8 +67,6 @@
     rgba(0, 0, 0, 0.9) 100%
   );
 }
-
-/* ---------- Nav index: numbered text links ---------- */
 
 .nav-index {
   display: flex;
@@ -115,8 +111,6 @@
   background: rgb(255, 213, 141);
   transform-origin: left;
 }
-
-/* ---------- Mobile: text + nav on top, centered, gradient fades top→middle ---------- */
 
 @media (max-width: 768px) {
   .gradient-blur-overlay {
@@ -176,11 +170,10 @@
   }
 }
 
-/* ---------- Small phones: trim further ---------- */
 
 @media (max-width: 550px) {
   .hi-break {
-    display: block; /* desktop: force the split onto its own line */
+    display: block;
   }
 
   .nav-index {

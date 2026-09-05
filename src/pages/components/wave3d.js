@@ -2,9 +2,6 @@ import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-// Four sine layers traveling at different angles through (x, z) so the
-// surface genuinely folds in two dimensions — no two cross-sections
-// along z are ever identical, unlike a 2D profile swept along depth.
 function waveHeight(x, z, t, amp) {
   const p1 = t * 0.00035;
   const p2 = t * 0.0009;

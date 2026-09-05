@@ -1,6 +1,4 @@
-/* =======================================================
-   DESKTOP VIEW (Original App Styles)
-   ======================================================= */
+
 .projects-body {
   width: 100vw;
   height: 100vh;
@@ -63,9 +61,6 @@
   opacity: 0.5;
 }
 
-/* =======================================================
-   MOBILE VIEW (Simplified Breakout Styles)
-   ======================================================= */
 .mobile-body {
   min-height: 100vh;
   width: 100vw;
@@ -176,10 +171,6 @@
 .mobile-body .project-frame-url {
   border: 1px solid #eee;
 }
-
-/* =======================================================
-   SHARED UI (Frames & Time Formatting)
-   ======================================================= */
 .project-frame {
   margin-top: 20px;
   border-radius: 12px;

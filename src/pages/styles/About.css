@@ -32,9 +32,9 @@
 
 .about-headline {
   font-family: 'Architects Daughter', cursive;
-  font-weight: 800; /* this family only ships one weight — no 700 to fall back on */
-  font-size: clamp(2.5rem, 4.8vw, 4rem); /* nudged down from the Caveat sizing — Architects Daughter runs wider per letter, so the same clamp values were pushing lines too long */
-  line-height: 1.25; /* slightly looser than Caveat's 1.1 — this face has taller ascenders/descenders that need more room or they'll clip/collide */
+  font-weight: 800;
+  font-size: clamp(2.5rem, 4.8vw, 4rem);
+  line-height: 1.25;
   letter-spacing: 0;
   margin: 0 0 1.25rem;
   color: var(--text-cream);
