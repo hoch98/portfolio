@@ -5,11 +5,10 @@ import Clock from './components/clock';
 import { useEffect, useRef, useState } from 'react';
 import { MdOpenInNew } from "react-icons/md";
 
-// Shared Configurations
-const DESKTOP_CLOCK_DURATION = 3;
+const DESKTOP_CLOCK_DURATION = 2.5;
 const MOBILE_CLOCK_DURATION = 1.5;
 const EXIT_DURATION = 0.75;
-const ENTER_DURATION = 1;
+const ENTER_DURATION = 0.75;
 
 const projects = [
   { "title": "SAT English\n Revision Site", "img": "/projects/project1/image.png", "url": "https://github.com/hoch98/sat-revision" },
@@ -359,7 +358,6 @@ function MobileView({ isMobile }) {
       }}
     >
       
-      {/* Screen-wipe entry transition */}
       <motion.div
         style={{ position: 'fixed', width: '100vw', height: '100vh', zIndex: 100, backgroundColor: 'orange', top: 0, left: 0, pointerEvents: 'none' }}
         initial={{ left: 0 }}

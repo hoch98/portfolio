@@ -1,3 +1,5 @@
 # Portfolio
 
-heavy inspired by yorushika
+Personal Portfolio Site
+
+Designs inspired from various Yorushika music videos
