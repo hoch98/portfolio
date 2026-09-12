@@ -1,6 +1,7 @@
 import './styles/About.css';
 import { motion } from 'framer-motion';
 import { useMemo, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MouseCloud } from './components/MouseCloud';
 import BackButton from './components/backbutton';
 
@@ -30,6 +31,7 @@ function CloudLayer({ clouds, width, height, blur = 20 }) {
         width: '100%',
         height: '100%',
         mixBlendMode: 'screen',
+        pointerEvents: 'none', // Added this to prevent clouds from blocking clicks!
       }}
     >
       <defs>
@@ -80,19 +82,25 @@ function useWindowWidth() {
   return width;
 }
 
-function generateBuildings(targetWidth, { minWidth, maxWidth, minHeight, maxHeight }) {
+function generateBuildings(targetWidth, { minWidth, maxWidth, minHeight, maxHeight, addEasterEgg = false }) {
   const buildings = [];
   let x = 0;
   while (x < targetWidth) {
     const width = minWidth + Math.random() * (maxWidth - minWidth);
     const height = minHeight + Math.random() * (maxHeight - minHeight);
-    buildings.push({ x, width, height });
+    buildings.push({ x, width, height, isEasterEgg: false });
     x += width;
   }
+
+  if (addEasterEgg && buildings.length > 0) {
+    const eggIndex = Math.floor(Math.random() * buildings.length);
+    buildings[eggIndex].isEasterEgg = true;
+  }
+
   return buildings;
 }
 
-function BuildingLayer({ buildings, viewBoxWidth, color, opacity, bottom = 0, gradientId, gradientStops, duration = 20 }) {
+function BuildingLayer({ buildings, viewBoxWidth, color, opacity, bottom = 0, gradientId, gradientStops, duration = 20, navigate }) {
   const duplicatedBuildings = useMemo(() => {
     const secondSet = buildings.map((b) => ({
       ...b,
@@ -133,6 +141,7 @@ function BuildingLayer({ buildings, viewBoxWidth, color, opacity, bottom = 0, gr
             width: '100%',
             height: '100%',
             opacity,
+            pointerEvents: 'none'
           }}
         >
           {gradientId && (
@@ -151,7 +160,12 @@ function BuildingLayer({ buildings, viewBoxWidth, color, opacity, bottom = 0, gr
               y={300 - b.height}
               width={b.width}
               height={b.height}
-              fill={gradientId ? `url(#${gradientId})` : color}
+              fill={b.isEasterEgg ? '#FFF0B3' : (gradientId ? `url(#${gradientId})` : color)}
+              onClick={() => b.isEasterEgg && navigate('/test')}
+              style={{
+                pointerEvents: b.isEasterEgg ? 'auto' : 'none',
+                cursor: b.isEasterEgg ? 'pointer' : 'default',
+              }}
             />
           ))}
         </svg>
@@ -163,6 +177,7 @@ function BuildingLayer({ buildings, viewBoxWidth, color, opacity, bottom = 0, gr
 export default function About() {
   const windowWidth = useWindowWidth();
   const roundedWidth = Math.ceil(windowWidth / 50) * 50;
+  const navigate = useNavigate();
 
   const backBuildings = useMemo(
     () =>
@@ -171,6 +186,7 @@ export default function About() {
         maxWidth: 50,
         minHeight: 80,
         maxHeight: 150,
+        addEasterEgg: false
       }),
     [roundedWidth]
   );
@@ -182,6 +198,7 @@ export default function About() {
         maxWidth: 50,
         minHeight: 40,
         maxHeight: 120,
+        addEasterEgg: true 
       }),
     [roundedWidth]
   );
@@ -203,7 +220,7 @@ export default function About() {
   );
 
   return (
-    <div className='about-body' style={{ position: 'relative', overflow: 'hidden' }}>
+    <div className='about-body' style={{ position: 'relative', overflow: 'hidden', height: '100vh', width: '100vw' }}>
       <BackButton />
       <BuildingLayer
         buildings={backBuildings}
@@ -225,6 +242,7 @@ export default function About() {
         opacity={0.9}
         bottom={0}
         duration={35}
+        navigate={navigate}
       />
 
       <CloudLayer clouds={clouds} width={1000} height={800} blur={25} />
@@ -242,6 +260,7 @@ export default function About() {
           fontFamily: 'monospace',
           color: '#3c4556',
           textShadow: '0 1px 12px rgba(255,255,255,0.6)',
+          pointerEvents: 'none' // Added here to make sure text bounding box doesn't block clicks either
         }}
       >
         <h1 style={{ fontSize: '2rem', fontWeight: 600, margin: 0, letterSpacing: '-0.5px' }}>
@@ -266,6 +285,7 @@ export default function About() {
           </p>
         </div>
       </motion.div>
+      
       <MouseCloud/>
 
       <motion.div
@@ -275,7 +295,8 @@ export default function About() {
           height: "100vh",
           zIndex: 100,
           backgroundColor: "orange",
-          top: 0
+          top: 0,
+          pointerEvents: "none"
         }}
         initial={{ left: 0 }}
         animate={{ left: -window.innerWidth }}
