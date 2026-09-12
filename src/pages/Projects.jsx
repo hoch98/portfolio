@@ -429,7 +429,7 @@ function MobileView({ isMobile }) {
             </AnimatePresence>
           </div>
 
-          <div className="mobile-controls-container" style={{ display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '15px' }}>
+          <div className="mobile-controls-container" style={{ display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '15px', zIndex: 2 }}>
             <button className="mobile-para-button" onClick={runPrevious} disabled={isRunning || clockRef.current?.hourIndex <= 1}>
               <span className="para-text">Prev</span>
             </button>

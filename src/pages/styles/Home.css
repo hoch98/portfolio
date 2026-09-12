@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Patrick+Hand&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Space+Mono&display=swap');
 
 .home-body {
   width: 100vw;
   height: 100vh;
-  font-family: monospace;
+  font-family: 'Space Mono', monospace; 
 }
 
 .floor {
@@ -68,22 +68,49 @@
   );
 }
 
+.brand-header {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1.5vh, 16px);
+  margin-bottom: clamp(5px, 2vh, 15px); 
+}
+
 .hi {
   color: rgb(255, 213, 141);
-  font-size: clamp(2.8rem, 5vw, 5em);
-  line-height: 1.05;
+  font-family: monospace;
+  font-weight: 500;
+  font-size: clamp(3.5rem, 6vw, 6rem);
+  line-height: 1;
   margin: 0;
   padding: 0;
+  letter-spacing: -0.03em;
+  word-spacing: -0.3em;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.4); 
 }
 
-.hi-break {
-  display: block;
+.role-subtitle-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
-.zero-width-comma {
-  display: inline-block;
-  width: 0;
-  overflow: visible;
+.role-line {
+  width: clamp(24px, 4vw, 48px);
+  height: 2px;
+  background-color: rgb(255, 213, 141);
+  opacity: 0.5;
+  border-radius: 2px;
+}
+
+.role-subtitle {
+  color: rgb(255, 213, 141);
+  font-size: clamp(0.85rem, 1.2vw, 1.1rem);
+  font-family: 'Space Mono', monospace; 
+  opacity: 0.75;
+  margin: 0;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .nav-index {
@@ -93,7 +120,7 @@
 }
 
 .nav-index-item {
-  font-family: monospace;
+  font-family: 'Space Mono', monospace;
   background: none;
   border: none;
   padding: 0;
@@ -130,7 +157,6 @@
   transform-origin: left;
 }
 
-/* Responsive Social Links */
 .social-links {
   display: flex;
   align-items: center;
@@ -148,7 +174,6 @@
   text-decoration: none;
 }
 
-/* Scales SVG smoothly from 22px up to 36px based on viewport width */
 .social-icon svg {
   width: clamp(22px, 2.2vw, 36px);
   height: clamp(22px, 2.2vw, 36px);
@@ -159,7 +184,6 @@
   transform: translateY(-2px);
 }
 
-/* Mobile & Small Screen Optimizations */
 @media (max-width: 768px) {
   .gradient-blur-overlay {
     width: 100%;
@@ -195,15 +219,20 @@
     );
   }
 
+  .brand-header {
+    align-items: center;
+    margin-bottom: 0;
+  }
+
   .hi {
-    font-size: clamp(1.8rem, 7vw, 3.5rem);
+    font-size: clamp(3.5rem, 10vw, 4.5rem);
     white-space: nowrap;
     max-width: 90vw;
     text-align: center;
   }
 
-  .hi-break {
-    display: none;
+  .role-subtitle-container {
+    justify-content: center;
   }
 
   .nav-index {
@@ -245,10 +274,6 @@
 }
 
 @media (max-width: 550px) {
-  .hi-break {
-    display: block;
-  }
-
   .nav-index {
     gap: 12px;
   }
