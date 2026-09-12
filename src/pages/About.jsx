@@ -289,18 +289,11 @@ export default function About() {
       <MouseCloud/>
 
       <motion.div
-        style={{
-          position: "absolute",
-          width: "100vw",
-          height: "100vh",
-          zIndex: 100,
-          backgroundColor: "orange",
-          top: 0,
-          pointerEvents: "none"
-        }}
+        style={{ position: 'absolute', width: '100vw', height: '100vh', zIndex: 100, backgroundColor: 'orange', top: 0 }}
         initial={{ left: 0 }}
         animate={{ left: -window.innerWidth }}
-        transition={{ duration: 0.5, ease: "easeIn" }}
+        exit={{ left: 0 }}
+        transition={{ duration: 0.5, ease: 'easeIn' }}
       />
     </div>
   );
