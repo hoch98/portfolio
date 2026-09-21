@@ -23,14 +23,27 @@ const Clock = forwardRef(function Clock({ style, spins = 2, duration = 1.5, clas
 
   const canvasRef = useRef(null);
   const leftCanvasRef = useRef(null);
+
+  // Fixed-capacity trailing-line buffers. We mutate these in place every
+  // frame instead of rebuilding them with map/filter, which used to
+  // allocate hundreds of objects + several new arrays every single frame
+  // (60x/sec) for as long as this component was mounted.
   const pointsRef = useRef({ hour: [], minute: [], second: [] });
   const leftPointsRef = useRef({ hour: [], minute: [], second: [] });
+
+  // How many points each trailing line should keep, recomputed when the
+  // viewport changes. Kept in a ref so the rAF loop can read the latest
+  // value without needing to be recreated.
+  const maxDownLenRef = useRef(Math.ceil(window.innerHeight / 3));
+  const maxLeftLenRef = useRef(Math.ceil(window.innerWidth / 3));
 
   useEffect(() => {
     const handleResize = () => {
       setViewportWidth(window.innerWidth);
       // 2. Keep track of viewport height on window resize
       setViewportHeight(window.innerHeight);
+      maxDownLenRef.current = Math.ceil(window.innerHeight / 3);
+      maxLeftLenRef.current = Math.ceil(window.innerWidth / 3);
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -63,11 +76,18 @@ const Clock = forwardRef(function Clock({ style, spins = 2, duration = 1.5, clas
       const mX = centerX + MINUTE_HAND_LENGTH * Math.cos(mRad);
       const sX = centerX + SECOND_HAND_LENGTH * Math.cos(sRad);
 
-      // 3. Filter points dynamically based on actual viewport height
-      const stepDown = (arr, newX) => [
-        { x: newX, y: 0 },
-        ...arr.map((pt) => ({ x: pt.x, y: pt.y + 3 })).filter((pt) => pt.y <= viewportHeight),
-      ];
+      // 3. Mutate in place: push a new head point, age everything else
+      // down by one step, and truncate (not filter/copy) once we exceed
+      // the max length for the current viewport height.
+      const stepDown = (arr, newX) => {
+        arr.unshift({ x: newX, y: 0 });
+        for (let i = 1; i < arr.length; i++) {
+          arr[i].y += 3;
+        }
+        const maxLen = maxDownLenRef.current;
+        if (arr.length > maxLen) arr.length = maxLen;
+        return arr;
+      };
 
       pointsRef.current.hour = stepDown(pointsRef.current.hour, hX);
       pointsRef.current.minute = stepDown(pointsRef.current.minute, mX);
@@ -99,10 +119,15 @@ const Clock = forwardRef(function Clock({ style, spins = 2, duration = 1.5, clas
       const mY = leftCenterY + MINUTE_HAND_LENGTH * Math.sin(mRad);
       const sY = leftCenterY + SECOND_HAND_LENGTH * Math.sin(sRad);
 
-      const stepLeft = (arr, newY) => [
-        { x: width, y: newY },
-        ...arr.map((pt) => ({ x: pt.x - 3, y: pt.y })).filter((pt) => pt.x >= 0),
-      ];
+      const stepLeft = (arr, newY) => {
+        arr.unshift({ x: width, y: newY });
+        for (let i = 1; i < arr.length; i++) {
+          arr[i].x -= 3;
+        }
+        const maxLen = maxLeftLenRef.current;
+        if (arr.length > maxLen) arr.length = maxLen;
+        return arr;
+      };
 
       leftPointsRef.current.hour = stepLeft(leftPointsRef.current.hour, hY);
       leftPointsRef.current.minute = stepLeft(leftPointsRef.current.minute, mY);

@@ -3,6 +3,7 @@ import Home from './pages/Home';
 import Projects from './pages/Projects';
 import About from './pages/About';
 import Test from './pages/3dtest';
+import AssetPreloader from './pages/components/AssetLoader';
 import { AnimatePresence } from 'framer-motion';
 
 function AnimatedRoutes() {
@@ -22,7 +23,8 @@ function AnimatedRoutes() {
 
 function App() {
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}> 
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <AssetPreloader />
       <AnimatedRoutes />
     </BrowserRouter>
   );
